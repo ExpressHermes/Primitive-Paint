@@ -1,0 +1,40 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Primitive Paint</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
+	<script type="text/paperscript" canvas="myCanvas">
+    var path;
+    tool.onMouseDown = function(event) {
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 50,
+        height: 50
+      });
+      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+    }
+
+    tool.onMouseDrag = function(event) {
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 50,
+        height: 50
+      });
+      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+    }
+	</script>
+</head>
+<body style=" cursor: pointer;">
+
+	<nav id="navbar">
+		<a class="nav-link" href="index.html">Home</a>
+		<a class="nav-link" href="simplePen.html">Simple Pad</a>
+		<a class="nav-link active" href="rectangle.html">Rectangle Pad</a>
+		<a class="nav-link" href="circle.html">Circle Pad</a>
+		<a class="nav-link" href="ellipse.html">Ellipse Pad</a>
+	</nav>
+	<canvas id="myCanvas" resize></canvas>
+</body>
