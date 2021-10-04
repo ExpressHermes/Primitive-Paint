@@ -4,12 +4,18 @@
 	<title>Primitive Paint</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	<script type="text/paperscript" canvas="myCanvas">
+	
+
+  
+  <script type="text/paperscript" canvas="myCanvas">
     var path, ellipse;
 
     tool.minDistance = 1;
 
     tool.onMouseDown = function(event) {
+      var newC="#000000"
+      newC = document.getElementById("color").value;
+      console.log(newC);
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
@@ -18,10 +24,13 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      ellipse.strokeColor = newC;
     }
 
     tool.onMouseDrag = function(event) {
+      var newC="#000000"
+      newC = document.getElementById("color").value;
+      console.log(newC);
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
@@ -30,7 +39,7 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      ellipse.strokeColor = newC;
     }
 	</script>
 </head>
@@ -43,5 +52,9 @@
 		<a class="nav-link" href="circle.html">Circle Pad</a>
 		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
 	</nav>
+  <div style="padding: 10px 20px;">
+    <strong><label for="color">Select Color : </label></strong>
+    <input type="color" name="" id="color">
+</div>
 	<canvas id="myCanvas" resize></canvas>
 </body>
