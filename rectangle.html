@@ -8,8 +8,8 @@
   
   <script type="text/paperscript" canvas="myCanvas">
     var path;
+    var BrushColor="#000000"
     tool.onMouseDown = function(event) {
-      var BrushColor="#000000"
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
@@ -21,7 +21,6 @@
     }
 
     tool.onMouseDrag = function(event) {
-      var BrushColor="#000000"
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,

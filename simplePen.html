@@ -11,13 +11,12 @@
     <script type="text/paperscript" canvas="myCanvas">
 
         var path;
-
+        var BrushColor="#000000"
         // Only execute onMouseDrag when the mouse
         // has moved at least 1 points:
         tool.minDistance = 1;
 
         tool.onMouseDown = function(event) {
-            var BrushColor="#000000"
            BrushColor = document.getElementById("color").value;
             // Create a new path every time the mouse is clicked
             path = new Path();
