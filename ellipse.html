@@ -13,9 +13,8 @@
     tool.minDistance = 1;
 
     tool.onMouseDown = function(event) {
-      var newC="#000000"
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor="#000000"
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
@@ -24,13 +23,12 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = newC;
+      ellipse.strokeColor = BrushColor;
     }
 
     tool.onMouseDrag = function(event) {
-      var newC="#000000"
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor="#000000"
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
@@ -39,7 +37,7 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = newC;
+      ellipse.strokeColor = BrushColor;
     }
 	</script>
 </head>

@@ -17,14 +17,13 @@
         tool.minDistance = 1;
 
         tool.onMouseDown = function(event) {
-            var newC="#000000"
-           newC = document.getElementById("color").value;
-            console.log(newC);
+            var BrushColor="#000000"
+           BrushColor = document.getElementById("color").value;
             // Create a new path every time the mouse is clicked
             path = new Path();
             path.add(event.point);
             // Randomly generate the stroke color every time mouse is clicked
-            path.strokeColor = newC;
+            path.strokeColor = BrushColor;
         }
 
         tool.onMouseDrag = function(event) {

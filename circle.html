@@ -9,29 +9,25 @@
   <script type="text/paperscript" canvas="myCanvas">
     var path;
     tool.onMouseDown = function(event) {
-      var newC="#000000"
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor="#000000"
+      BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius: 50
       });
-      <!-- path.strokeStyle = x; -->
-      path.strokeColor = new Color(newC);
-      console.log(x);
+      path.strokeColor = new Color(BrushColor);
     }
 
     tool.onMouseDrag = function(event) {
-      var newC = "#000000";
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor = "#000000";
+      BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius: 50
       });
-      path.strokeColor = newC;
+      path.strokeColor = BrushColor;
     }
 
 

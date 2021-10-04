@@ -9,29 +9,27 @@
   <script type="text/paperscript" canvas="myCanvas">
     var path;
     tool.onMouseDown = function(event) {
-      var newC="#000000"
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor="#000000"
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
         width: 50,
         height: 50
       });
-      path.strokeColor = newC;
+      path.strokeColor = BrushColor;
     }
 
     tool.onMouseDrag = function(event) {
-      var newC="#000000"
-      newC = document.getElementById("color").value;
-      console.log(newC);
+      var BrushColor="#000000"
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
         width: 50,
         height: 50
       });
-      path.strokeColor = newC;
+      path.strokeColor = BrushColor;
     }
 	</script>
 </head>
