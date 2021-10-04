@@ -1,23 +1,28 @@
 <!DOCTYPE>
 <html>
+
 <head>
-	<title>Primitive Paint</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	<script type="text/paperscript" canvas="myCanvas">
+    <title>Primitive Paint</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/paper.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js">
+    </script>
+
+
+    <script type="text/paperscript" canvas="myCanvas">
 
         var path;
-
+        var BrushColor="#000000"
         // Only execute onMouseDrag when the mouse
         // has moved at least 1 points:
         tool.minDistance = 1;
 
         tool.onMouseDown = function(event) {
+           BrushColor = document.getElementById("color").value;
             // Create a new path every time the mouse is clicked
             path = new Path();
             path.add(event.point);
             // Randomly generate the stroke color every time mouse is clicked
-            path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+            path.strokeColor = BrushColor;
         }
 
         tool.onMouseDrag = function(event) {
@@ -27,14 +32,21 @@
 
 	</script>
 </head>
+
 <body style=" cursor: pointer;">
 
-	<nav id="navbar">
-		<a class="nav-link" href="index.html">Home</a>
-		<a class="nav-link active" href="simplePen.html">Simple Pad</a>
-		<a class="nav-link" href="rectangle.html">Rectangle Pad</a>
-		<a class="nav-link" href="circle.html">Circle Pad</a>
-		<a class="nav-link" href="ellipse.html">Ellipse Pad</a>
-	</nav>
-	<canvas id="myCanvas" resize></canvas>
+    <nav id="navbar">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link active" href="simplePen.html">Simple Pad</a>
+        <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
+        <a class="nav-link" href="circle.html">Circle Pad</a>
+        <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
+    </nav>
+    <div style="padding: 10px 20px;">
+        <strong><label for="color">Select Color : </label></strong>
+        <input type="color" name="" id="color">
+    </div>
+
+
+    <canvas id="myCanvas" resize></canvas>
 </body>

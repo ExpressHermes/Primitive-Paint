@@ -4,26 +4,31 @@
 	<title>Primitive Paint</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	<script type="text/paperscript" canvas="myCanvas">
+	
+  
+  <script type="text/paperscript" canvas="myCanvas">
     var path;
+    var BrushColor="#000000"
     tool.onMouseDown = function(event) {
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
         width: 50,
         height: 50
       });
-      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      path.strokeColor = BrushColor;
     }
 
     tool.onMouseDrag = function(event) {
+      BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
         width: 50,
         height: 50
       });
-      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      path.strokeColor = BrushColor;
     }
 	</script>
 </head>
@@ -36,5 +41,9 @@
 		<a class="nav-link" href="circle.html">Circle Pad</a>
 		<a class="nav-link" href="ellipse.html">Ellipse Pad</a>
 	</nav>
+  <div style="padding: 10px 20px;">
+    <strong><label for="color">Select Color : </label></strong>
+    <input type="color" name="" id="color">
+</div>
 	<canvas id="myCanvas" resize></canvas>
 </body>
