@@ -11,14 +11,15 @@
     var path, ellipse;
     var BrushColor="#000000"
     tool.minDistance = 1;
-
+    var sizeRange;
     tool.onMouseDown = function(event) {
+      sizeRange = Number(document.getElementById("sizeRange").value);
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
-        width: 70,
-        height: 50
+        width: (7/5)*sizeRange,
+        height: sizeRange
       });
 
       ellipse = new Path.Ellipse(path);
@@ -26,12 +27,13 @@
     }
 
     tool.onMouseDrag = function(event) {
+      sizeRange = Number(document.getElementById("sizeRange").value);
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
         y: event.point.y,
-        width: 70,
-        height: 50
+        width: (7/5)*sizeRange,
+        height: sizeRange
       });
 
       ellipse = new Path.Ellipse(path);
@@ -49,8 +51,10 @@
 		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
 	</nav>
   <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
+    <strong><label for="size">Enter Size :</label></strong>
+    <input type="range" name="size" id="sizeRange" min="5" max="300"> 
+    <strong style="margin-left: 15px;"><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
-</div>
+  </div>
 	<canvas id="myCanvas" resize></canvas>
 </body>

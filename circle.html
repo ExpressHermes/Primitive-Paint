@@ -8,23 +8,26 @@
   </script>
   <script type="text/paperscript" canvas="myCanvas">
     var path;
-    var BrushColor="#000000"
+    var BrushColor="#000000";
+    var sizeRange;
     tool.onMouseDown = function(event) {
+      sizeRange = Number(document.getElementById("sizeRange").value);
       BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
-        radius: 50
+        radius: sizeRange
       });
       path.strokeColor = new Color(BrushColor);
     }
 
     tool.onMouseDrag = function(event) {
+      sizeRange = Number(document.getElementById("sizeRange").value);
       BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
-        radius: 50
+        radius: sizeRange
       });
       path.strokeColor = BrushColor;
     }
@@ -43,7 +46,9 @@
     <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
   </nav>
   <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
+    <strong><label for="size">Enter Size :</label></strong>
+    <input type="range" name="size" id="sizeRange" min="5" max="150"> 
+    <strong style="margin-left: 15px;"><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
   </div>
   <canvas id="myCanvas" resize> </canvas>
