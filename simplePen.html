@@ -29,7 +29,9 @@
             // Add a point to the path every time the mouse is dragged
             path.add(event.point);
         }
-
+ document.querySelector("#clear").addEventListener("click",function(){
+      location.reload();
+    })
 	</script>
 </head>
 
@@ -45,6 +47,7 @@
     <div style="padding: 10px 20px;">
         <strong><label for="color">Select Color : </label></strong>
         <input type="color" name="" id="color">
+        <button id ="clear" style="float: right;">Clear Screen</button>
     </div>
 
 
