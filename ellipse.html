@@ -11,8 +11,10 @@
     var path, ellipse;
     var BrushColor="#000000"
     tool.minDistance = 1;
-
+    var isEraser=0;
     tool.onMouseDown = function(event) {
+      if(isEraser===0)
+      {
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
@@ -23,9 +25,25 @@
 
       ellipse = new Path.Ellipse(path);
       ellipse.strokeColor = BrushColor;
+      }
+      else 
+      {
+             BrushColor="#eee";
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 30,
+        height: 30
+      });
+      ellipse = new Path.Ellipse(path);
+      ellipse.fillColor=BrushColor;
+      ellipse.strokeColor = BrushColor;
+      }
     }
 
     tool.onMouseDrag = function(event) {
+      if(isEraser===0)
+      {
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
@@ -36,10 +54,31 @@
 
       ellipse = new Path.Ellipse(path);
       ellipse.strokeColor = BrushColor;
+      }
+      else 
+      {
+             BrushColor="#eee";
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 30,
+        height: 30
+      });
+      ellipse = new Path.Ellipse(path);
+      ellipse.fillColor=BrushColor;
+      ellipse.strokeColor = BrushColor;
+      }
+
     }
      document.querySelector("#clear").addEventListener("click",function(){
       location.reload();
     })
+          document.querySelector("#eraser").addEventListener("click",function(){
+      isEraser=1;
+    });
+         document.querySelector("#color").addEventListener("click",function(){
+      isEraser=0;
+    });
 	</script>
 </head>
 <body style=" cursor: pointer;">
@@ -55,6 +94,7 @@
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
     <button id ="clear" style="float: right;">Clear Screen</button>
+     <button id ="eraser" style="position:absolute;top:55px;left:180px;">Eraser</button>
 </div>
 	<canvas id="myCanvas" resize></canvas>
 </body>

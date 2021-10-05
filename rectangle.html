@@ -8,8 +8,11 @@
   
   <script type="text/paperscript" canvas="myCanvas">
     var path;
-    var BrushColor="#000000"
+    var BrushColor="#000000";
+    var isEraser=0;
     tool.onMouseDown = function(event) {
+      if(isEraser===0)
+      {
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
@@ -18,9 +21,24 @@
         height: 50
       });
       path.strokeColor = BrushColor;
+      }
+      else 
+      {
+         BrushColor="#eee";
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 20,
+        height: 20
+      });
+      path.fillColor=BrushColor;
+      path.strokeColor = BrushColor;
+      }
     }
 
     tool.onMouseDrag = function(event) {
+      if(isEraser===0)
+      {
       BrushColor = document.getElementById("color").value;
       path = new Path.Rectangle({
         x: event.point.x,
@@ -30,9 +48,31 @@
       });
       path.strokeColor = BrushColor;
     }
+    else 
+    {
+    
+     BrushColor ="#eee";
+      path = new Path.Rectangle({
+        x: event.point.x,
+        y: event.point.y,
+        width: 20,
+        height: 20
+      });
+        path.fillColor=BrushColor;
+      path.strokeColor = BrushColor;
+    }
+    }
+
+   
      document.querySelector("#clear").addEventListener("click",function(){
       location.reload();
-    })
+    });
+       document.querySelector("#eraser").addEventListener("click",function(){
+      isEraser=1;
+    });
+         document.querySelector("#color").addEventListener("click",function(){
+      isEraser=0;
+    });
 	</script>
 </head>
 <body style=" cursor: pointer;">
@@ -48,6 +88,7 @@
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
     <button id ="clear" style="float: right;">Clear Screen</button>
+    <button id ="eraser" style="position:absolute;top:55px;left:180px;">Eraser</button>
 </div>
 	<canvas id="myCanvas" resize></canvas>
 </body>
