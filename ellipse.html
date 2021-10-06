@@ -6,15 +6,20 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
 	<script type="text/paperscript" canvas="myCanvas">
     var path, ellipse;
-
+    var range = Number(document.getElementById("range").value); 
+    var rangenew = Number(document.getElementById("rangenew").value);
     tool.minDistance = 1;
 
     tool.onMouseDown = function(event) {
+      range = Number(document.getElementById("range").value); 
+      rangenew = Number(document.getElementById("rangenew").value);
+      console.log(range);
       path = new Path.Rectangle({
+        
         x: event.point.x,
         y: event.point.y,
-        width: 70,
-        height: 50
+        width: range,
+        height: rangenew,
       });
 
       ellipse = new Path.Ellipse(path);
@@ -22,11 +27,15 @@
     }
 
     tool.onMouseDrag = function(event) {
+      range = Number(document.getElementById("range").value); 
+      rangenew = Number(document.getElementById("rangenew").value);
+      console.log(range);
       path = new Path.Rectangle({
+        
         x: event.point.x,
         y: event.point.y,
-        width: 70,
-        height: 50
+        width: range,
+        height: rangenew,
       });
 
       ellipse = new Path.Ellipse(path);
@@ -43,5 +52,15 @@
 		<a class="nav-link" href="circle.html">Circle Pad</a>
 		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
 	</nav>
+  <div style="padding: 10 px 10 px 20px 10px; background-color:gainsboro;">
+    <label for="range">Major Axis</label>
+    <input type="range" name="" id="range">
+    <!-- <input type="range" name="" id="range" min="0" max="100"> -->
+  </div>
+  <div style="padding: 10 px 10 px 20px 10px; background-color:gainsboro;">
+    <label for="rangenew">Minor Axis</label>
+    <input type="range" name="" id="rangenew">
+    <!-- <input type="range" name="" id="range" min="0" max="100"> -->
+  </div>
 	<canvas id="myCanvas" resize></canvas>
 </body>
