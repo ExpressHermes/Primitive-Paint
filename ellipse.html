@@ -4,6 +4,7 @@
 	<title>Primitive Paint</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
+
 	<script type="text/paperscript" canvas="myCanvas">
     var path, ellipse;
     var range = Number(document.getElementById("range").value); 
@@ -14,6 +15,17 @@
       range = Number(document.getElementById("range").value); 
       rangenew = Number(document.getElementById("rangenew").value);
       console.log(range);
+	
+
+  
+  <script type="text/paperscript" canvas="myCanvas">
+    var path, ellipse;
+    var BrushColor="#000000"
+    tool.minDistance = 1;
+
+    tool.onMouseDown = function(event) {
+      BrushColor = document.getElementById("color").value;
+
       path = new Path.Rectangle({
         
         x: event.point.x,
@@ -23,13 +35,17 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      ellipse.strokeColor = BrushColor;
     }
 
     tool.onMouseDrag = function(event) {
+
       range = Number(document.getElementById("range").value); 
       rangenew = Number(document.getElementById("rangenew").value);
       console.log(range);
+
+      BrushColor = document.getElementById("color").value;
+
       path = new Path.Rectangle({
         
         x: event.point.x,
@@ -39,8 +55,11 @@
       });
 
       ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      ellipse.strokeColor = BrushColor;
     }
+     document.querySelector("#clear").addEventListener("click",function(){
+      location.reload();
+    })
 	</script>
 </head>
 <body style=" cursor: pointer;">
@@ -52,6 +71,7 @@
 		<a class="nav-link" href="circle.html">Circle Pad</a>
 		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
 	</nav>
+
   <div style="padding: 10 px 10 px 20px 10px; background-color:gainsboro;">
     <label for="range">Major Axis</label>
     <input type="range" name="" id="range">
@@ -62,5 +82,10 @@
     <input type="range" name="" id="rangenew">
     <!-- <input type="range" name="" id="range" min="0" max="100"> -->
   </div>
+  <div style="padding: 10px 20px;">
+    <strong><label for="color">Select Color : </label></strong>
+    <input type="color" name="" id="color">
+    <button id ="clear" style="float: right;">Clear Screen</button>
+</div>
 	<canvas id="myCanvas" resize></canvas>
 </body>

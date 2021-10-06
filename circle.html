@@ -1,39 +1,52 @@
 <!DOCTYPE>
 <html>
+
 <head>
-	<title>Primitive Paint</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-  <script src="app.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	<script type="text/paperscript" canvas="myCanvas">
+
+  <title>Primitive Paint</title>
+  <link rel="stylesheet" type="text/css" href="assets/css/paper.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js">
+  </script>
+  <script type="text/paperscript" canvas="myCanvas">
     var path;
-    var range = Number(document.getElementById("range").value); 
+     var range = Number(document.getElementById("range").value); 
     tool.onMouseDown = function(event) {
       range = Number(document.getElementById("range").value); 
       console.log(range);
+    var BrushColor="#000000"
+    tool.onMouseDown = function(event) {
+      BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius: range
       });
-      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      path.strokeColor = new Color(BrushColor);
     }
 
     tool.onMouseDrag = function(event) {
       range = Number(document.getElementById("range").value); 
       console.log(range);
+
+      BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius:range
       });
-      path.strokeColor = new Color(Math.random(), Math.random(), Math.random());
+      path.strokeColor = BrushColor;
     }
 </script>
+
+ document.querySelector("#clear").addEventListener("click",function(){
+      location.reload();
+    })
+	</script>
 </head>
+
 <body style=" cursor: pointer;">
   <nav id="navbar">
-		<a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="index.html">Home</a>
     <a class="nav-link" href="simplePen.html">Simple Pad</a>
     <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
     <a class="nav-link active" href="circle.html">Circle Pad</a>
@@ -47,4 +60,13 @@
     
 	<canvas id="myCanvas" resize></canvas>
   
+  <div style="padding: 10px 20px;">
+    <strong><label for="color">Select Color : </label></strong>
+    <input type="color" name="" id="color">
+    <button id ="clear" style="float: right;">Clear Screen</button>
+  </div>
+  <canvas id="myCanvas" resize> </canvas>
+
 </body>
+
+</html>
