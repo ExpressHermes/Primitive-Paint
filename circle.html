@@ -9,24 +9,35 @@
   </script>
   <script type="text/paperscript" canvas="myCanvas">
     var path;
-    var BrushColor="#000000"
+    var BrushColor="#000000";
+    var isFilled;
     tool.onMouseDown = function(event) {
       BrushColor = document.getElementById("color").value;
+      isFilled = document.getElementById("fillcolor").checked;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius: 50
       });
+      if(isFilled) {
+        path.fillColor = BrushColor;
+      }
+      
       path.strokeColor = new Color(BrushColor);
     }
 
     tool.onMouseDrag = function(event) {
+      isFilled = document.getElementById("fillcolor").checked;
       BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
         y: event.point.y,
         radius: 50
       });
+      if(isFilled) {
+        path.fillColor = BrushColor;
+      }
+      
       path.strokeColor = BrushColor;
     }
 
@@ -48,6 +59,8 @@
   <div style="padding: 10px 20px;">
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
+    <label for="fillcolor"> Filled Shape : </label>
+    <input type="checkbox" name="fillcolor" id="fillcolor">
     <button id ="clear" style="float: right;">Clear Screen</button>
   </div>
   <canvas id="myCanvas" resize> </canvas>
