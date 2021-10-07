@@ -1,71 +1,68 @@
-<!DOCTYPE>
+<!DOCTYPE >
 <html>
-<head>
-	<title>Primitive Paint</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-  <link rel="icon" href="assets/images/color-circle.png">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	
+  <head>
+    <title>Primitive Paint</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
+    <link rel="icon" href="assets/images/color-circle.png" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"
+    ></script>
 
-  
-  <script type="text/paperscript" canvas="myCanvas">
-    var path, ellipse;
-    var BrushColor="#000000"
-    tool.minDistance = 1;
-    var isFilled;
-    tool.onMouseDown = function(event) {
-      BrushColor = document.getElementById("color").value;
-      isFilled = document.getElementById("fillcolor").checked;
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 70,
-        height: 50
-      });
-      
-      ellipse = new Path.Ellipse(path);
-      if(isFilled) {
-        ellipse.fillColor = BrushColor;
+    <script type="text/paperscript" canvas="myCanvas">
+      var path, ellipse;
+      var BrushColor="#000000"
+      tool.minDistance = 1;
+      var isFilled;
+      tool.onMouseDown = function(event) {
+        BrushColor = document.getElementById("color").value;
+        isFilled = document.getElementById("fillcolor").checked;
+        path = new Path.Rectangle({
+          x: event.point.x,
+          y: event.point.y,
+          width: 70,
+          height: 50
+        });
+        ellipse = new Path.Ellipse(path);
+        if(isFilled) {
+          ellipse.fillColor = BrushColor;
+        }
+        ellipse.strokeColor = BrushColor;
       }
-      ellipse.strokeColor = BrushColor;
-    }
 
-    tool.onMouseDrag = function(event) {
-      BrushColor = document.getElementById("color").value;
-      isFilled = document.getElementById("fillcolor").checked;
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 70,
-        height: 50
-      });
-
-      ellipse = new Path.Ellipse(path);
-      if(isFilled) {
-        ellipse.fillColor = BrushColor;
+      tool.onMouseDrag = function(event) {
+        path = new Path.Rectangle({
+          x: event.point.x,
+          y: event.point.y,
+          width: 70,
+          height: 50
+        });
+        ellipse = new Path.Ellipse(path);
+        if(isFilled) {
+          ellipse.fillColor = BrushColor;
+        }
+        ellipse.strokeColor = BrushColor;
       }
-      ellipse.strokeColor = BrushColor;
-    }
-     document.querySelector("#clear").addEventListener("click",function(){
-      location.reload();
-    })
-	</script>
-</head>
-<body style=" cursor: pointer;">
-
-  <nav id="navbar">
-		<a class="nav-link" href="index.html">Home</a>
-		<a class="nav-link" href="simplePen.html">Simple Pad</a>
-		<a class="nav-link" href="rectangle.html">Rectangle Pad</a>
-		<a class="nav-link" href="circle.html">Circle Pad</a>
-		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
-	</nav>
-  <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
-    <input type="color" name="" id="color">
-    <label for="fillcolor"> Filled Shape : </label>
-    <input type="checkbox" name="fillcolor" id="fillcolor">
-    <button id ="clear" style="float: right;">Clear Screen</button>
-</div>
-	<canvas id="myCanvas" resize></canvas>
-</body>
+      document.querySelector("#clear").addEventListener("click",function(){
+        location.reload();
+      })
+    </script>
+  </head>
+  <body style="cursor: pointer">
+    <nav id="navbar">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="simplePen.html">Simple Pad</a>
+      <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
+      <a class="nav-link" href="circle.html">Circle Pad</a>
+      <a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
+    </nav>
+    <div style="padding: 10px 20px">
+      <strong><label for="color">Select Color : </label></strong>
+      <input type="color" name="" id="color" />
+      <label for="fillcolor"> Filled Shape : </label>
+      <input type="checkbox" name="fillcolor" id="fillcolor" />
+      <button id="clear" style="float: right">Clear Screen</button>
+    </div>
+    <canvas id="myCanvas" resize></canvas>
+  </body>
+</html>

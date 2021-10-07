@@ -1,70 +1,64 @@
-<!DOCTYPE>
+<!DOCTYPE >
 <html>
+  <head>
+    <title>Primitive Paint</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
+    <link rel="icon" href="assets/images/color-circle.png" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"
+    ></script>
+    <script type="text/paperscript" canvas="myCanvas">
+         var path;
+         var BrushColor="#000000";
+         var isFilled;
+         tool.onMouseDown = function(event) {
+           BrushColor = document.getElementById("color").value;
+           isFilled = document.getElementById("fillcolor").checked;
+           path = new Path.Circle({
+             x: event.point.x,
+             y: event.point.y,
+             radius: 50
+           });
+           if(isFilled) {
+             path.fillColor = BrushColor;
+           }
+           path.strokeColor = new Color(BrushColor);
+         }
 
-<head>
-  <title>Primitive Paint</title>
-  <link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-  <link rel="icon" href="assets/images/color-circle.png">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js">
-  </script>
-  <script type="text/paperscript" canvas="myCanvas">
-    var path;
-    var BrushColor="#000000";
-    var isFilled;
-    tool.onMouseDown = function(event) {
-      BrushColor = document.getElementById("color").value;
-      isFilled = document.getElementById("fillcolor").checked;
-      path = new Path.Circle({
-        x: event.point.x,
-        y: event.point.y,
-        radius: 50
-      });
-      if(isFilled) {
-        path.fillColor = BrushColor;
-      }
-      
-      path.strokeColor = new Color(BrushColor);
-    }
+         tool.onMouseDrag = function(event) {
+           path = new Path.Circle({
+             x: event.point.x,
+             y: event.point.y,
+             radius: 50
+           });
+           if(isFilled) {
+             path.fillColor = BrushColor;
+           }
+           path.strokeColor = BrushColor;
+         }
 
-    tool.onMouseDrag = function(event) {
-      isFilled = document.getElementById("fillcolor").checked;
-      BrushColor = document.getElementById("color").value;
-      path = new Path.Circle({
-        x: event.point.x,
-        y: event.point.y,
-        radius: 50
-      });
-      if(isFilled) {
-        path.fillColor = BrushColor;
-      }
-      
-      path.strokeColor = BrushColor;
-    }
+          document.querySelector("#clear").addEventListener("click",function(){
+           location.reload();
+         })
+    </script>
+  </head>
 
- document.querySelector("#clear").addEventListener("click",function(){
-      location.reload();
-    })
-	</script>
-</head>
-
-<body style=" cursor: pointer;">
-
-  <nav id="navbar">
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="simplePen.html">Simple Pad</a>
-    <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
-    <a class="nav-link active" href="circle.html">Circle Pad</a>
-    <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
-  </nav>
-  <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
-    <input type="color" name="" id="color">
-    <label for="fillcolor"> Filled Shape : </label>
-    <input type="checkbox" name="fillcolor" id="fillcolor">
-    <button id ="clear" style="float: right;">Clear Screen</button>
-  </div>
-  <canvas id="myCanvas" resize> </canvas>
-
-</body>
-
+  <body style="cursor: pointer">
+    <nav id="navbar">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="simplePen.html">Simple Pad</a>
+      <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
+      <a class="nav-link active" href="circle.html">Circle Pad</a>
+      <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
+    </nav>
+    <div style="padding: 10px 20px">
+      <strong><label for="color">Select Color : </label></strong>
+      <input type="color" name="" id="color" />
+      <label for="fillcolor"> Filled Shape : </label>
+      <input type="checkbox" name="fillcolor" id="fillcolor" />
+      <button id="clear" style="float: right">Clear Screen</button>
+    </div>
+    <canvas id="myCanvas" resize> </canvas>
+  </body>
 </html>
