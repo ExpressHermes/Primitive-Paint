@@ -5,27 +5,17 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
 
-	<script type="text/paperscript" canvas="myCanvas">
-    var path, ellipse;
-    var range = Number(document.getElementById("range").value); 
-    var rangenew = Number(document.getElementById("rangenew").value);
-    tool.minDistance = 1;
-
-    tool.onMouseDown = function(event) {
-      range = Number(document.getElementById("range").value); 
-      rangenew = Number(document.getElementById("rangenew").value);
-      console.log(range);
 	
-
   
   <script type="text/paperscript" canvas="myCanvas">
     var path, ellipse;
     var BrushColor="#000000"
     tool.minDistance = 1;
-
+    var range,rangenew;
     tool.onMouseDown = function(event) {
       BrushColor = document.getElementById("color").value;
-
+      range = Number(document.getElementById("range").value); 
+      rangenew = Number(document.getElementById("rangenew").value);
       path = new Path.Rectangle({
         
         x: event.point.x,
@@ -39,11 +29,8 @@
     }
 
     tool.onMouseDrag = function(event) {
-
       range = Number(document.getElementById("range").value); 
       rangenew = Number(document.getElementById("rangenew").value);
-      console.log(range);
-
       BrushColor = document.getElementById("color").value;
 
       path = new Path.Rectangle({
@@ -71,18 +58,13 @@
 		<a class="nav-link" href="circle.html">Circle Pad</a>
 		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
 	</nav>
-
-  <div class="sizediv">
-    <label for="range">Major Axis</label>
-    <input type="range" name="" id="range">
-    <!-- <input type="range" name="" id="range" min="0" max="100"> -->
-  </div>
   <div class="sizediv">
     <label for="rangenew">Minor Axis</label>
     <input type="range" name="" id="rangenew">
-    <!-- <input type="range" name="" id="range" min="0" max="100"> -->
+    <label for="range">Major Axis</label>
+    <input type="range" name="" id="range">
   </div>
-  <div style="padding: 10px 20px;">
+  <div class="sizediv">
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
     <button id ="clear" style="float: right;">Clear Screen</button>

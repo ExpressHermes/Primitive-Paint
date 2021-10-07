@@ -9,11 +9,12 @@
   </script>
   <script type="text/paperscript" canvas="myCanvas">
     var path;
-     var range = Number(document.getElementById("range").value); 
-    tool.onMouseDown = function(event) {
-      range = Number(document.getElementById("range").value); 
+     var range; 
+    
+     
     var BrushColor="#000000"
     tool.onMouseDown = function(event) {
+      range = Number(document.getElementById("range").value);
       BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
@@ -33,7 +34,6 @@
       });
       path.strokeColor = BrushColor;
     }
-</script>
 
  document.querySelector("#clear").addEventListener("click",function(){
       location.reload();
@@ -52,12 +52,9 @@
   <div class="sizediv">
     <label for="range">Radius</label>
     <input type="range" name="" id="range">
-    <!-- <input type="range" name="" id="range" min="0" max="100"> -->
   </div>
     
-	<canvas id="myCanvas" resize></canvas>
-  
-  <div style="padding: 10px 20px;">
+  <div class="sizediv">
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color">
     <button id ="clear" style="float: right;">Clear Screen</button>
