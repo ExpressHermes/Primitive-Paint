@@ -12,7 +12,6 @@
      var range = Number(document.getElementById("range").value); 
     tool.onMouseDown = function(event) {
       range = Number(document.getElementById("range").value); 
-      console.log(range);
     var BrushColor="#000000"
     tool.onMouseDown = function(event) {
       BrushColor = document.getElementById("color").value;
@@ -26,8 +25,6 @@
 
     tool.onMouseDrag = function(event) {
       range = Number(document.getElementById("range").value); 
-      console.log(range);
-
       BrushColor = document.getElementById("color").value;
       path = new Path.Circle({
         x: event.point.x,
