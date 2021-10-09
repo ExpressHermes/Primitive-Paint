@@ -1,61 +1,53 @@
-<!DOCTYPE>
+<!DOCTYPE >
 <html>
-<head>
-	<title>Primitive Paint</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-  <link rel="icon" href="assets/images/color-circle.png">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-	
+  <head>
+    <title>Primitive Paint</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
+    <link rel="icon" href="assets/images/color-circle.png" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"
+    ></script>
 
-  
-  <script type="text/paperscript" canvas="myCanvas">
-    var path, ellipse;
-    var BrushColor="#000000"
-    tool.minDistance = 1;
+    <script type="text/paperscript" canvas="myCanvas">
+      tool.minDistance = 1;
+      var paint = function(event) {
+        var path, ellipse;
+        var BrushColor = document.getElementById("color").value;
+        var filledColor = document.getElementById("fillColor").value;
+        path = new Path.Rectangle({
+          x: event.point.x,
+          y: event.point.y,
+          width: 70,
+          height: 50
+        });
+        ellipse = new Path.Ellipse(path);
+        ellipse.fillColor = filledColor;
+        ellipse.strokeColor = BrushColor;
+      }
+      tool.onMouseDown = paint;
 
-    tool.onMouseDown = function(event) {
-      BrushColor = document.getElementById("color").value;
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 70,
-        height: 50
-      });
-
-      ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = BrushColor;
-    }
-
-    tool.onMouseDrag = function(event) {
-      BrushColor = document.getElementById("color").value;
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 70,
-        height: 50
-      });
-
-      ellipse = new Path.Ellipse(path);
-      ellipse.strokeColor = BrushColor;
-    }
-     document.querySelector("#clear").addEventListener("click",function(){
-      location.reload();
-    })
-	</script>
-</head>
-<body style=" cursor: pointer;">
-
-  <nav id="navbar">
-		<a class="nav-link" href="index.html">Home</a>
-		<a class="nav-link" href="simplePen.html">Simple Pad</a>
-		<a class="nav-link" href="rectangle.html">Rectangle Pad</a>
-		<a class="nav-link" href="circle.html">Circle Pad</a>
-		<a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
-	</nav>
-  <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
-    <input type="color" name="" id="color">
-    <button id ="clear" style="float: right;">Clear Screen</button>
-</div>
-	<canvas id="myCanvas" resize></canvas>
-</body>
+      tool.onMouseDrag = paint;
+      document.querySelector("#clear").addEventListener("click",function(){
+        location.reload();
+      })
+    </script>
+  </head>
+  <body style="cursor: pointer">
+    <nav id="navbar">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="simplePen.html">Simple Pad</a>
+      <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
+      <a class="nav-link" href="circle.html">Circle Pad</a>
+      <a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
+    </nav>
+    <div style="padding: 10px 20px">
+      <strong><label for="color">Border Color : </label></strong>
+      <input type="color" name="" id="color" />
+      <strong><label for="fillColor">Fill Color : </label></strong>
+      <input type="color" name="" id="fillColor" value="#eeeeee" />
+      <button id="clear" style="float: right">Clear Screen</button>
+    </div>
+    <canvas id="myCanvas" resize></canvas>
+  </body>
+</html>
