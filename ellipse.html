@@ -10,13 +10,11 @@
     ></script>
 
     <script type="text/paperscript" canvas="myCanvas">
-      var path, ellipse;
-      var BrushColor="#000000"
       tool.minDistance = 1;
-      var isFilled;
-      tool.onMouseDown = function(event) {
-        BrushColor = document.getElementById("color").value;
-        isFilled = document.getElementById("fillcolor").checked;
+      var paint = function(event) {
+        var path, ellipse;
+        var BrushColor = document.getElementById("color").value;
+        var filledColor = document.getElementById("fillColor").value;
         path = new Path.Rectangle({
           x: event.point.x,
           y: event.point.y,
@@ -24,25 +22,12 @@
           height: 50
         });
         ellipse = new Path.Ellipse(path);
-        if(isFilled) {
-          ellipse.fillColor = BrushColor;
-        }
+        ellipse.fillColor = filledColor;
         ellipse.strokeColor = BrushColor;
       }
+      tool.onMouseDown = paint;
 
-      tool.onMouseDrag = function(event) {
-        path = new Path.Rectangle({
-          x: event.point.x,
-          y: event.point.y,
-          width: 70,
-          height: 50
-        });
-        ellipse = new Path.Ellipse(path);
-        if(isFilled) {
-          ellipse.fillColor = BrushColor;
-        }
-        ellipse.strokeColor = BrushColor;
-      }
+      tool.onMouseDrag = paint;
       document.querySelector("#clear").addEventListener("click",function(){
         location.reload();
       })
@@ -57,10 +42,10 @@
       <a class="nav-link active" href="ellipse.html">Ellipse Pad</a>
     </nav>
     <div style="padding: 10px 20px">
-      <strong><label for="color">Select Color : </label></strong>
+      <strong><label for="color">Border Color : </label></strong>
       <input type="color" name="" id="color" />
-      <label for="fillcolor"> Filled Shape : </label>
-      <input type="checkbox" name="fillcolor" id="fillcolor" />
+      <strong><label for="fillColor">Fill Color : </label></strong>
+      <input type="color" name="" id="fillColor" value="#eeeeee" />
       <button id="clear" style="float: right">Clear Screen</button>
     </div>
     <canvas id="myCanvas" resize></canvas>
