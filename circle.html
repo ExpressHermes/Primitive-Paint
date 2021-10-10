@@ -1,96 +1,93 @@
-<!DOCTYPE>
+<!DOCTYPE >
 <html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Primitive Paint</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
+    <link rel="icon" href="assets/images/color-circle.png" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"
+    ></script>
+    <script type="text/paperscript" canvas="myCanvas">
+         var path;
+         var BrushColor="#000000"
+         var isEraser=0;
 
-<head>
-  <title>Primitive Paint</title>
-  <link rel="stylesheet" type="text/css" href="assets/css/paper.css">
-  <link rel="icon" href="assets/images/color-circle.png">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js">
-  </script>
-  <script type="text/paperscript" canvas="myCanvas">
-    var path;
-    var BrushColor="#000000"
-    var isEraser=0;
-    tool.onMouseDown = function(event) {
-      if(isEraser===0)
-      {
-      BrushColor = document.getElementById("color").value;
-      path = new Path.Circle({
-        x: event.point.x,
-        y: event.point.y,
-        radius: 50
-      });
-      path.strokeColor = new Color(BrushColor);
-      }
-      else 
-      {
-             BrushColor="#eee";
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 30,
-        height: 30
-      });
-      path.fillColor=BrushColor;
-      path.strokeColor = BrushColor;
-      }
-    }
+         function draw(event){
+             BrushColor = document.getElementById("color").value;
+           path = new Path.Circle({
+             x: event.point.x,
+             y: event.point.y,
+             radius: 50
+           });
+           path.strokeColor = new Color(BrushColor);
+         }
 
-    tool.onMouseDrag = function(event) {
-      if(isEraser===0)
-      {
-      BrushColor = document.getElementById("color").value;
-      path = new Path.Circle({
-        x: event.point.x,
-        y: event.point.y,
-        radius: 50
-      });
-      path.strokeColor = BrushColor;
-      }
-      else 
-      {
-             BrushColor="#eee";
-      path = new Path.Rectangle({
-        x: event.point.x,
-        y: event.point.y,
-        width: 30,
-        height: 30
-      });
-      path.fillColor=BrushColor;
-      path.strokeColor = BrushColor;
-      }
-    }
+         function erase(event){
+          BrushColor="#eee";
+           path = new Path.Rectangle({
+             x: event.point.x,
+             y: event.point.y,
+             width: 30,
+             height: 30
+           });
+           path.fillColor=BrushColor;
+           path.strokeColor = BrushColor;
+         }
 
- document.querySelector("#clear").addEventListener("click",function(){
-      location.reload();
-    })
-          document.querySelector("#eraser").addEventListener("click",function(){
-      isEraser=1;
-    });
-         document.querySelector("#color").addEventListener("click",function(){
-      isEraser=0;
-    });
-	</script>
-</head>
+         tool.onMouseDown = function(event) {
+           if(isEraser===0)
+           {
+                  draw(event);
+           }
+           else
+           {
+             erase(event);
+           }
+         }
 
-<body style=" cursor: pointer;">
+         tool.onMouseDrag = function(event) {
+           if(isEraser===0)
+           {
+           draw(event);
+           }
+           else
+           {
+             erase(event);
+           }
+         }
 
-  <nav id="navbar">
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="simplePen.html">Simple Pad</a>
-    <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
-    <a class="nav-link active" href="circle.html">Circle Pad</a>
-    <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
-  </nav>
-  <div style="padding: 10px 20px;">
-    <strong><label for="color">Select Color : </label></strong>
-    <input type="color" name="" id="color">
-    <button id ="clear" style="float: right;">Clear Screen</button>
-     <button id ="clear" style="float: right;">Clear Screen</button>
-     <button id ="eraser" style="position:absolute;top:55px;left:180px;">Eraser</button>
-  </div>
-  <canvas id="myCanvas" resize> </canvas>
+      document.querySelector("#clear").addEventListener("click",function(){
+           location.reload();
+         })
+               document.querySelector("#eraser").addEventListener("click",function(){
+                  document.querySelector("#eraser").classList.toggle("btn-secondary");
+                 document.querySelector("#eraser").classList.toggle("btn-primary");
+                 isEraser=1-isEraser;
+         });
+    </script>
+  </head>
 
-</body>
-
+  <body style="cursor: pointer">
+    <nav id="navbar">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="simplePen.html">Simple Pad</a>
+      <a class="nav-link" href="rectangle.html">Rectangle Pad</a>
+      <a class="nav-link active" href="circle.html">Circle Pad</a>
+      <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
+    </nav>
+    <div style="padding: 10px 20px">
+      <strong><label for="color">Select Color : </label></strong>
+      <input type="color" name="" id="color" />
+      <button id="clear" style="float: right">Clear Screen</button>
+      <button id="eraser" class="btn btn-secondary btn-sm">Eraser</button>
+    </div>
+    <canvas id="myCanvas" resize> </canvas>
+  </body>
 </html>
