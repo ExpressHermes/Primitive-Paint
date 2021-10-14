@@ -18,17 +18,26 @@
              tool.minDistance = 1;
 
              tool.onMouseDown = function(event) {
+               var range = Number(document.getElementById("range").value);
                 BrushColor = document.getElementById("color").value;
                  // Create a new path every time the mouse is clicked
                  path = new Path();
                  path.add(event.point);
                  // Randomly generate the stroke color every time mouse is clicked
                  path.strokeColor = BrushColor;
+                 path.strokeWidth = range;
+                 path.strokeCap = 'round';
+                 path.strokeJoin = 'round';
              }
 
              tool.onMouseDrag = function(event) {
+               var range = Number(document.getElementById("range").value);
                  // Add a point to the path every time the mouse is dragged
                  path.add(event.point);
+                 path.strokeColor = BrushColor;
+                 path.strokeWidth = range;
+                 path.strokeCap = 'round';
+                 path.strokeJoin = 'round';
              }
       document.querySelector("#clear").addEventListener("click",function(){
            location.reload();
@@ -47,6 +56,8 @@
     <div style="padding: 10px 20px">
       <strong><label for="color">Select Color : </label></strong>
       <input type="color" name="" id="color" />
+      <strong><label for="range">Size</label></strong>
+      <input type="range" name="" id="range" min="1" max="50" value="1">
       <button id="clear" style="float: right">Clear Screen</button>
     </div>
 
