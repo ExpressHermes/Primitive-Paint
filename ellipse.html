@@ -1,6 +1,12 @@
 <!DOCTYPE >
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <title>Primitive Paint</title>
     <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
     <link rel="icon" href="assets/images/color-circle.png" />
@@ -10,28 +16,69 @@
     ></script>
 
     <script type="text/paperscript" canvas="myCanvas">
-      tool.minDistance = 1;
-      var paint = function(event) {
-        var path, ellipse;
-        var range = Number(document.getElementById("range").value);
-        var BrushColor = document.getElementById("color").value;
-        var filledColor = document.getElementById("fillColor").value;
-        path = new Path.Rectangle({
-          x: event.point.x,
-          y: event.point.y,
-          width: 7*range,
-          height: 5*range
-        });
-        ellipse = new Path.Ellipse(path);
-        ellipse.fillColor = filledColor;
-        ellipse.strokeColor = BrushColor;
-      }
-      tool.onMouseDown = paint;
+            tool.minDistance = 1;
+            var isEraser=0;
+            function draw(event){
+      var path, ellipse;
+              var range = Number(document.getElementById("range").value);
+              var BrushColor = document.getElementById("color").value;
+              var filledColor = document.getElementById("fillColor").value;
+              path = new Path.Rectangle({
+                x: event.point.x,
+                y: event.point.y,
+                width: 7*range,
+                height: 5*range
+              });
+              ellipse = new Path.Ellipse(path);
+              ellipse.fillColor = filledColor;
+              ellipse.strokeColor = BrushColor;
+            }
+            function erase(event)
+               {
+                  BrushColor="#eee";
+            path = new Path.Rectangle({
+              x: event.point.x,
+              y: event.point.y,
+              width: 70,
+              height: 50
+            });
+            ellipse = new Path.Ellipse(path);
+            ellipse.fillColor=BrushColor;
+            ellipse.strokeColor = BrushColor;
+               }
 
-      tool.onMouseDrag = paint;
-      document.querySelector("#clear").addEventListener("click",function(){
-        location.reload();
-      })
+            var paint = function(event) {
+              if(isEraser===0)
+              {
+                draw(event);
+              }
+              else{
+                erase(event);
+              }
+            }
+            tool.onMouseDown = paint;
+
+            tool.onMouseDrag = paint;
+            document.querySelector("#clear").addEventListener("click",function(){
+              location.reload();
+            })
+             document.querySelector("#eraser").addEventListener("click",function(){
+              document.querySelector("#eraser").classList.toggle("btn-secondary");
+            document.querySelector("#eraser").classList.toggle("btn-primary");
+          isEraser=1-isEraser;
+      });
+
+        document.querySelector("#color").addEventListener("click",function(){
+               document.querySelector("#eraser").classList.add("btn-secondary");
+          document.querySelector("#eraser").classList.remove("btn-primary");
+           isEraser=0;
+         });
+
+         document.querySelector("#fillColor").addEventListener("click",function(){
+             document.querySelector("#eraser").classList.add("btn-secondary");
+          document.querySelector("#eraser").classList.remove("btn-primary");
+           isEraser=0;
+         });
     </script>
   </head>
   <body style="cursor: pointer">
@@ -48,8 +95,9 @@
       <strong><label for="fillColor">Fill Color : </label></strong>
       <input type="color" name="" id="fillColor" value="#eeeeee" />
       <strong><label for="range">Size</label></strong>
-      <input type="range" name="" id="range" min="1" max="50">
+      <input type="range" name="" id="range" min="1" max="50" />
       <button id="clear" style="float: right">Clear Screen</button>
+      <button id="eraser" class="btn btn-secondary btn-sm">Eraser</button>
     </div>
     <canvas id="myCanvas" resize></canvas>
   </body>

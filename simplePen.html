@@ -1,6 +1,12 @@
 <!DOCTYPE >
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <title>Primitive Paint</title>
     <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
     <link rel="icon" href="assets/images/color-circle.png" />
@@ -16,9 +22,9 @@
              // Only execute onMouseDrag when the mouse
              // has moved at least 1 points:
              tool.minDistance = 1;
-
-             tool.onMouseDown = function(event) {
-               var range = Number(document.getElementById("range").value);
+            var isEraser=0;
+            function draw(event){
+                  var range = Number(document.getElementById("range").value);
                 BrushColor = document.getElementById("color").value;
                  // Create a new path every time the mouse is clicked
                  path = new Path();
@@ -28,20 +34,61 @@
                  path.strokeWidth = range;
                  path.strokeCap = 'round';
                  path.strokeJoin = 'round';
+            }
+            function erase(event)
+            {
+              BrushColor="#eee";
+             path = new Path.Rectangle({
+             x: event.point.x,
+             y: event.point.y,
+             width: 20,
+             height: 20
+           });
+           path.fillColor=BrushColor;
+           path.strokeColor = BrushColor;
+            }
+             tool.onMouseDown = function(event) {
+                   if(isEraser===0)
+                      {
+                        draw(event);
+                      }
+                      else
+                      {
+                        erase(event);
+                      }
              }
 
              tool.onMouseDrag = function(event) {
-               var range = Number(document.getElementById("range").value);
+               if(isEraser===0)
+               {
+                  var range = Number(document.getElementById("range").value);
                  // Add a point to the path every time the mouse is dragged
                  path.add(event.point);
                  path.strokeColor = BrushColor;
                  path.strokeWidth = range;
                  path.strokeCap = 'round';
                  path.strokeJoin = 'round';
+
+               }
+               else{
+                 erase(event);
+               }
+
              }
       document.querySelector("#clear").addEventListener("click",function(){
            location.reload();
          })
+          document.querySelector("#eraser").addEventListener("click",function(){
+                  document.querySelector("#eraser").classList.toggle("btn-secondary");
+            document.querySelector("#eraser").classList.toggle("btn-primary");
+           isEraser=1-isEraser;
+         });
+
+           document.querySelector("#color").addEventListener("click",function(){
+             document.querySelector("#eraser").classList.add("btn-secondary");
+          document.querySelector("#eraser").classList.remove("btn-primary");
+           isEraser=0;
+         });
     </script>
   </head>
 
@@ -57,8 +104,9 @@
       <strong><label for="color">Select Color : </label></strong>
       <input type="color" name="" id="color" />
       <strong><label for="range">Size</label></strong>
-      <input type="range" name="" id="range" min="1" max="50" value="1">
+      <input type="range" name="" id="range" min="1" max="50" value="1" />
       <button id="clear" style="float: right">Clear Screen</button>
+      <button id="eraser" class="btn btn-secondary btn-sm">Eraser</button>
     </div>
 
     <canvas id="myCanvas" resize></canvas>
