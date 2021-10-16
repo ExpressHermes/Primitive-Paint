@@ -13,7 +13,7 @@
       tool.minDistance = 1;
       var paint = function(event) {
         var path, ellipse;
-        var range = Number(document.getElementById("range").value); 
+        var range = Number(document.getElementById("range").value);
         var BrushColor = document.getElementById("color").value;
         var filledColor = document.getElementById("fillColor").value;
         path = new Path.Rectangle({
@@ -47,8 +47,8 @@
       <input type="color" name="" id="color" />
       <strong><label for="fillColor">Fill Color : </label></strong>
       <input type="color" name="" id="fillColor" value="#eeeeee" />
-      <label for="range">Size</label>
-    <input type="range" name="" id="range" min="1" max="50">
+      <strong><label for="range">Size</label></strong>
+      <input type="range" name="" id="range" min="1" max="50">
       <button id="clear" style="float: right">Clear Screen</button>
     </div>
     <canvas id="myCanvas" resize></canvas>
