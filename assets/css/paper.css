@@ -107,3 +107,7 @@ header {
 	font-size: 1.5em;
 	font-family: 'Pacifico', cursive !important;
 }
+
+#eraser{
+	margin: 0 10px 5px;
+}
