@@ -16,6 +16,8 @@
     <script type="text/paperscript" canvas="myCanvas">
 
              var path;
+             var pathsCreated = [];
+             var pathsRemoved = [];
              var BrushColor="#000000";
              var background="#eee";
              var isEraser=false;
@@ -29,6 +31,10 @@
                 BrushColor = (isEraser?background:document.getElementById("color").value);
                  // Create a new path every time the mouse is clicked
                  path = new Path();
+
+                 // add path to pathsCreated array
+                 pathsCreated.push(path);
+                 
                  path.add(event.point);
                  // Randomly generate the stroke color every time mouse is clicked
                  path.strokeColor = BrushColor;
@@ -49,15 +55,44 @@
                key=event.character.toUpperCase();
                if(key==='Z'){
 
-                  isEraser=!isEraser;
+                // Undo if ctrl was pressed else toggle eraser
+                if (event.event.ctrlKey) {
+                  if (pathsCreated.length) {
+                    var lastPath = pathsCreated[pathsCreated.length - 1];
+                    lastPath.remove();
+                    pathsRemoved.push(lastPath);
+                    pathsCreated.pop();
+                   }
+                 } else {
 
-                   if(isEraser){
-                     document.querySelector("#eraser").innerText="Pen";
-                   }
-                   else {
-                     document.querySelector("#eraser").innerText="Eraser";
-                   }
+                   isEraser=!isEraser;
+  
+                    if(isEraser){
+                      document.querySelector("#eraser").innerText="Pen";
+                    }
+                    else {
+                      document.querySelector("#eraser").innerText="Eraser";
+                    }
+                 }
+
                }
+
+               // Redo
+               if (key==='Y' && event.event.ctrlKey) {
+                 if (pathsRemoved.length) {
+                   var lastPath = pathsRemoved[pathsRemoved.length - 1];
+                   path = new Path({
+                     segments: lastPath.segments,
+                     strokeColor: lastPath.strokeColor,
+                     strokeWidth: lastPath.strokeWidth,
+                     strokeCap: lastPath.strokeCap,
+                     strokeJoin: lastPath.strokeJoin,
+                   });
+                   pathsCreated.push(path);
+                   pathsRemoved.pop();
+                 }
+               }
+               
 
                if(key==='Q')
                {

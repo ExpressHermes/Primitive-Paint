@@ -16,20 +16,25 @@
       tool.minDistance = 1;
       var background="#eee";
       var isEraser=false;
+      var pathsCreated = [];
+      var pathsRemoved = [];
+
       function draw(event){
-        var path, ellipse;
+        var path;
         var range = Number(document.getElementById("range").value);
         var BrushColor = document.getElementById("color").value;
         var filledColor = document.getElementById("fillColor").value;
-        path = new Path.Rectangle({
+        path = new Path.Ellipse({
           x: event.point.x,
           y: event.point.y,
           width: 7*range,
           height: 5*range
         });
-        ellipse = new Path.Ellipse(path);
-        ellipse.fillColor = filledColor;
-        ellipse.strokeColor = BrushColor;
+
+        pathsCreated.push(path);
+        
+        path.fillColor = filledColor;
+        path.strokeColor = BrushColor;
       }
       function erase(event)
       {
@@ -62,15 +67,42 @@
         key=event.character.toUpperCase();
         if(key==='Z'){
 
-           isEraser=!isEraser;
+          if (event.event.ctrlKey) {
+            if (pathsCreated.length) {
+              var lastPath = pathsCreated[pathsCreated.length - 1];
+              lastPath.remove();
+              pathsRemoved.push(lastPath);
+              pathsCreated.pop();
+             }
+           } else {
 
-            if(isEraser){
-              document.querySelector("#eraser").innerText="Pen";
-            }
-            else {
-              document.querySelector("#eraser").innerText="Eraser";
-            }
+             isEraser=!isEraser;
+
+              if(isEraser){
+                document.querySelector("#eraser").innerText="Pen";
+              }
+              else {
+                document.querySelector("#eraser").innerText="Eraser";
+              }
+           }
         }
+
+        if (key==='Y' && event.event.ctrlKey) {
+          if (pathsRemoved.length) {
+            var lastPath = pathsRemoved[pathsRemoved.length - 1];
+            path = new Path.Ellipse({
+              x: lastPath.x,
+              y: lastPath.y,
+              width: lastPath.width,
+              height: lastPath.height,
+              fillColor: lastPath.fillColor,
+              strokeColor: lastPath.strokeColor
+            });
+            pathsCreated.push(path);
+            pathsRemoved.pop();
+          }
+        }
+        
         if(key==='Q')
         {
           document.getElementById("range").setAttribute("value",Math.min(range+3,200));
