@@ -16,8 +16,11 @@
     <script type="text/paperscript" canvas="myCanvas">
 
              var path;
+
+             // store paths created/removed for undo/redo purposes
              var pathsCreated = [];
              var pathsRemoved = [];
+
              var BrushColor="#000000";
              var background="#eee";
              var isEraser=false;
@@ -58,8 +61,10 @@
                 // Undo if ctrl was pressed else toggle eraser
                 if (event.event.ctrlKey) {
                   if (pathsCreated.length) {
+                    // remove last path in pathsCreated array
                     var lastPath = pathsCreated[pathsCreated.length - 1];
                     lastPath.remove();
+                    // update pathsCreated and pathsRemoved
                     pathsRemoved.push(lastPath);
                     pathsCreated.pop();
                    }
@@ -80,6 +85,7 @@
                // Redo
                if (key==='Y' && event.event.ctrlKey) {
                  if (pathsRemoved.length) {
+                   // add last path from pathsRemoved array
                    var lastPath = pathsRemoved[pathsRemoved.length - 1];
                    path = new Path({
                      segments: lastPath.segments,
@@ -88,6 +94,7 @@
                      strokeCap: lastPath.strokeCap,
                      strokeJoin: lastPath.strokeJoin,
                    });
+                   // update pathsCreated and pathsRemoved
                    pathsCreated.push(path);
                    pathsRemoved.pop();
                  }
