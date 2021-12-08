@@ -11,14 +11,16 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
   <link rel="icon" href="assets/images/color-circle.png" />
-
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
 
   <script type="text/paperscript" canvas="myCanvas">
     var background = "#eee";
     var isEraser = false;
-    
+
+    var pathsCreated = [];
+    var pathsRemoved = [];
+
     function draw(event) {
       var path;
       var range = Number(document.getElementById("range").value);
@@ -30,10 +32,13 @@
         width: range,
         height: range
       });
+
+      pathsCreated.push(path);
+
       path.fillColor = filledColor;
       path.strokeColor = BrushColor;
     }
-    
+
     function erase(event) {
       var epath;
       var range = Number(document.getElementById("range").value);
@@ -47,7 +52,7 @@
       epath.fillColor = filledColor;
       epath.strokeColor = BrushColor;
     }
-    
+
     var paint = function (event) {
       if (!isEraser) {
         draw(event);
@@ -56,24 +61,51 @@
         erase(event);
       }
     }
-    
+
     tool.onMouseDown = paint;
     tool.onMouseDrag = paint;
-    
+
     function onKeyDown(event) {
       var range = Number(document.getElementById("range").value);
       var key = event.character.toUpperCase();
       if (key === 'Z') {
 
-        isEraser = !isEraser;
+        if (event.event.ctrlKey) {
+          if (pathsCreated.length) {
+            var lastPath = pathsCreated[pathsCreated.length - 1];
+            lastPath.remove();
+            pathsRemoved.push(lastPath);
+            pathsCreated.pop();
+          }
+        } else {
 
-        if (isEraser) {
-          document.querySelector("#eraser").innerText = "Pen";
-        }
-        else {
-          document.querySelector("#eraser").innerText = "Eraser";
+          isEraser = !isEraser;
+
+          if (isEraser) {
+            document.querySelector("#eraser").innerText = "Pen";
+          }
+          else {
+            document.querySelector("#eraser").innerText = "Eraser";
+          }
         }
       }
+
+      if (key === 'Y' && event.event.ctrlKey) {
+        if (pathsRemoved.length) {
+          var lastPath = pathsRemoved[pathsRemoved.length - 1];
+          path = new Path.Rectangle({
+            x: lastPath.x,
+            y: lastPath.y,
+            width: lastPath.width,
+            height: lastPath.height,
+            fillColor: lastPath.fillColor,
+            strokeColor: lastPath.strokeColor
+          });
+          pathsCreated.push(path);
+          pathsRemoved.pop();
+        }
+      }
+
       if (key === 'Q') {
         document.getElementById("range").setAttribute("value", Math.min(range + 3, 200));
       }
@@ -81,11 +113,11 @@
         document.getElementById("range").setAttribute("value", Math.max(range - 3, 1));
       }
     }
-    
+
     document.querySelector("#clear").addEventListener("click", function () {
       location.reload();
     })
-    
+
     document.querySelector("#eraser").addEventListener("click", function (event) {
       isEraser = !isEraser;
       if (isEraser) {

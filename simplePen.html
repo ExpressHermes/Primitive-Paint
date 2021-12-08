@@ -11,13 +11,17 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/paper.css" />
   <link rel="icon" href="assets/images/color-circle.png" />
-
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
 
   <script type="text/paperscript" canvas="myCanvas">
 
     var path;
+    
+    // store paths created/removed for undo/redo purposes
+    var pathsCreated = [];
+    var pathsRemoved = [];
+    
     var BrushColor = "#000000";
     var background = "#eee";
     var isEraser = false;
@@ -31,6 +35,10 @@
       BrushColor = (isEraser ? background : document.getElementById("color").value);
       // Create a new path every time the mouse is clicked
       path = new Path();
+      
+      // add path to pathsCreated array
+      pathsCreated.push(path);
+      
       path.add(event.point);
       path.strokeColor = BrushColor;
       path.strokeWidth = range;
@@ -50,14 +58,43 @@
       var range = Number(document.getElementById("range").value);
       var key = event.character.toUpperCase();
       if (key === 'Z') {
+        // Undo if ctrl was pressed else toggle eraser
+        if (event.event.ctrlKey) {
+          if (pathsCreated.length) {
+            // remove last path in pathsCreated array
+            var lastPath = pathsCreated[pathsCreated.length - 1];
+            lastPath.remove();
+            // update pathsCreated and pathsRemoved
+            pathsRemoved.push(lastPath);
+            pathsCreated.pop();
+          }
+        } else {
+          isEraser = !isEraser;
 
-        isEraser = !isEraser;
-
-        if (isEraser) {
-          document.querySelector("#eraser").innerText = "Pen";
+          if (isEraser) {
+            document.querySelector("#eraser").innerText = "Pen";
+          }
+          else {
+            document.querySelector("#eraser").innerText = "Eraser";
+          }
         }
-        else {
-          document.querySelector("#eraser").innerText = "Eraser";
+      }
+      
+      // Redo
+      if (key === 'Y' && event.event.ctrlKey) {
+        if (pathsRemoved.length) {
+          // add last path from pathsRemoved array
+          var lastPath = pathsRemoved[pathsRemoved.length - 1];
+          path = new Path({
+            segments: lastPath.segments,
+            strokeColor: lastPath.strokeColor,
+            strokeWidth: lastPath.strokeWidth,
+            strokeCap: lastPath.strokeCap,
+            strokeJoin: lastPath.strokeJoin,
+          });
+          // update pathsCreated and pathsRemoved
+          pathsCreated.push(path);
+          pathsRemoved.pop();
         }
       }
 

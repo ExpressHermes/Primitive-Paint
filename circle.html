@@ -1,6 +1,6 @@
 <!DOCTYPE>
 <html>
-
+  
 <head>
   <title>Primitive Paint</title>
   <!-- bootstrap CDN -->
@@ -13,11 +13,14 @@
   <link rel="icon" href="assets/images/color-circle.png" />
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
-
+  
   <script type="text/paperscript" canvas="myCanvas">
     var background = "#eee";
     var isEraser = false;
-    
+
+    var pathsCreated = [];
+    var pathsRemoved = [];
+
     function draw(event) {
       var path;
       var range = Number(document.getElementById("range").value);
@@ -28,10 +31,13 @@
         y: event.point.y,
         radius: range
       });
+
+      pathsCreated.push(path);
+
       path.fillColor = filledColor;
       path.strokeColor = BrushColor;
     }
-    
+
     function erase(event) {
       var path;
       var range = Number(document.getElementById("range").value);
@@ -60,18 +66,43 @@
     
     function onKeyDown(event) {
       var range = Number(document.getElementById("range").value);
-      var key = event.character.toUpperCase();
+      key = event.character.toUpperCase();
       if (key === 'Z') {
 
-        isEraser = !isEraser;
+        if (event.event.ctrlKey) {
+          if (pathsCreated.length) {
+            var lastPath = pathsCreated[pathsCreated.length - 1];
+            lastPath.remove();
+            pathsRemoved.push(lastPath);
+            pathsCreated.pop();
+          }
+        } else {
 
-        if (isEraser) {
-          document.querySelector("#eraser").innerText = "Pen";
-        }
-        else {
-          document.querySelector("#eraser").innerText = "Eraser";
+          isEraser = !isEraser;
+
+          if (isEraser) {
+            document.querySelector("#eraser").innerText = "Pen";
+          }
+          else {
+            document.querySelector("#eraser").innerText = "Eraser";
+          }
         }
       }
+
+      if (key === 'Y' && event.event.ctrlKey) {
+        if (pathsRemoved.length) {
+          var lastPath = pathsRemoved[pathsRemoved.length - 1];
+          path = new Path.Circle({
+            center: [lastPath.x, lastPath.y],
+            radius: range,
+            fillColor: lastPath.fillColor,
+            strokeColor: lastPath.strokeColor
+          });
+          pathsCreated.push(path);
+          pathsRemoved.pop();
+        }
+      }
+
       if (key === 'Q') {
         document.getElementById("range").setAttribute("value", Math.min(range + 3, 200));
       }
