@@ -16,11 +16,11 @@
 
   <script type="text/paperscript" canvas="myCanvas">
 
-    var path;
-    
     // store paths created/removed for undo/redo purposes
     var pathsCreated = [];
     var pathsRemoved = [];
+
+    var numOfDivisions = 8;
     
     var BrushColor = "#000000";
     var background = "#eee";
@@ -33,25 +33,49 @@
     tool.onMouseDown = function (event) {
       var range = Number(document.getElementById("range").value);
       BrushColor = (isEraser ? background : document.getElementById("color").value);
+      
+      // create room for new path to be added
+      pathsCreated.push([]);
+      var angle = 0;
+      
       // Create a new path every time the mouse is clicked
-      path = new Path();
-      
-      // add path to pathsCreated array
-      pathsCreated.push(path);
-      
-      path.add(event.point);
-      path.strokeColor = BrushColor;
-      path.strokeWidth = range;
-      path.strokeCap = 'round';
-      path.strokeJoin = 'round';
+      // Create as many as there are numOfDivisions
+      for (var i = 0; i < numOfDivisions; i++) {
+
+        var path = new Path();
+
+        // rotate event.point by 'angle'
+        var rotatedPoint = rotate(event.point, angle);
+        path.add(rotatedPoint);
+
+        path.strokeColor = BrushColor;
+        path.strokeWidth = range;
+        path.strokeCap = 'round';
+        path.strokeJoin = 'round';
+
+        angle += Math.PI * 2 / numOfDivisions;
+
+        // add path to pathsCreated array
+        pathsCreated[pathsCreated.length - 1].push(path);
+      }
     }
 
     tool.onMouseDrag = function (event) {
+      
+      var angle = 0;
+      
       // Add a point to the path every time the mouse is dragged
-      path.add(event.point);
-      path.strokeColor = BrushColor;
-      path.strokeCap = 'round';
-      path.strokeJoin = 'round';
+      for (var i = 0; i < numOfDivisions; i++) {
+
+        var rotatedPoint = rotate(event.point, angle);
+        path = pathsCreated[pathsCreated.length - 1][i];
+        path.add(rotatedPoint);
+        path.strokeColor = BrushColor;
+        path.strokeCap = 'round';
+        path.strokeJoin = 'round';
+
+        angle += Math.PI * 2 / numOfDivisions;
+      }
     }
     
     function onKeyDown(event) {
@@ -60,12 +84,22 @@
       if (key === 'Z') {
         // Undo if ctrl was pressed else toggle eraser
         if (event.event.ctrlKey) {
+          // proceed only if pathsCreated is not empty
           if (pathsCreated.length) {
+
+            // add room for removed paths to be added in pathsRemoved array
+            pathsRemoved.push([]);
+
             // remove last path in pathsCreated array
-            var lastPath = pathsCreated[pathsCreated.length - 1];
-            lastPath.remove();
-            // update pathsCreated and pathsRemoved
-            pathsRemoved.push(lastPath);
+            for (var i = 0; i < numOfDivisions; i++) {
+
+              var lastPath = pathsCreated[pathsCreated.length - 1][i];
+              lastPath.remove();
+
+              // update pathsCreated
+              pathsRemoved[pathsRemoved.length - 1].push(lastPath);
+            }
+            // update pathsRemoved
             pathsCreated.pop();
           }
         } else {
@@ -82,18 +116,27 @@
       
       // Redo
       if (key === 'Y' && event.event.ctrlKey) {
+        // proceed only if pathsRemoved is not empty
         if (pathsRemoved.length) {
+
+          // add room for restored paths to be added in pathsCreated array
+          pathsCreated.push([]);
+
           // add last path from pathsRemoved array
-          var lastPath = pathsRemoved[pathsRemoved.length - 1];
-          path = new Path({
-            segments: lastPath.segments,
-            strokeColor: lastPath.strokeColor,
-            strokeWidth: lastPath.strokeWidth,
-            strokeCap: lastPath.strokeCap,
-            strokeJoin: lastPath.strokeJoin,
-          });
-          // update pathsCreated and pathsRemoved
-          pathsCreated.push(path);
+          for (var i = 0; i < numOfDivisions; i++) {
+
+            var lastPath = pathsRemoved[pathsRemoved.length - 1][i];
+            var path = new Path({
+              segments: lastPath.segments,
+              strokeColor: lastPath.strokeColor,
+              strokeWidth: lastPath.strokeWidth,
+              strokeCap: lastPath.strokeCap,
+              strokeJoin: lastPath.strokeJoin,
+            });
+            // update pathsCreated
+            pathsCreated[pathsCreated.length - 1].push(path);
+          }
+          // update pathsRemoved
           pathsRemoved.pop();
         }
       }
@@ -119,6 +162,24 @@
         event.target.innerText = "Eraser";
       }
     })
+
+    // returns a point rotated by given angle wrt centre of the canvas
+    function rotate(point, angle) {
+      var rotatedPoint = {x: undefined, y: undefined};
+
+      // convert screen coordinates to cartesian coordinates
+      rotatedPoint.x = point.x - innerWidth / 2;
+      rotatedPoint.y = -(point.y - innerHeight / 2);
+      // apply rotation
+      var rotatedX = rotatedPoint.x * Math.cos(angle) - rotatedPoint.y * Math.sin(angle);
+      var rotatedY = rotatedPoint.x * Math.sin(angle) + rotatedPoint.y * Math.cos(angle);
+      // transform points back to screen coordinates
+      rotatedPoint.x = rotatedX + innerWidth / 2;
+      rotatedPoint.y = -rotatedY + innerHeight / 2;
+
+      return rotatedPoint;
+    }
+    
   </script>
 </head>
 
