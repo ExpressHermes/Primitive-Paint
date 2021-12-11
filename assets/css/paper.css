@@ -41,18 +41,13 @@ nav {
 	background-color: #f19fad;
 
 }
-.head{
-	font-size: 48px;
-}
+
 .wrapper {
 	width: 300px;
 	height: 300px;
-	margin: 100px auto;
+	margin: 50px auto;
 	padding: 0px;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 20vh;
 	border-radius: 4px;
 	background-color: #FAFAFA;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12),
@@ -63,7 +58,6 @@ nav {
 	background: linear-gradient(90deg, #FF2A78, #F100AE);
 	overflow: hidden;
 }
-
 
 .links {
 	margin-bottom: 10px;
