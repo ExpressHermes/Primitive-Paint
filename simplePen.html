@@ -20,7 +20,7 @@
     var pathsCreated = [];
     var pathsRemoved = [];
 
-    var numOfDivisions = 8;
+    var numOfDivisions = 1;
     
     var BrushColor = "#000000";
     var background = "#eee";
@@ -31,7 +31,7 @@
     tool.minDistance = 1;
 
     tool.onMouseDown = function (event) {
-      var range = Number(document.getElementById("range").value);
+      var range = Number(document.getElementById("sizeSlider").value);
       BrushColor = (isEraser ? background : document.getElementById("color").value);
       
       // create room for new path to be added
@@ -79,7 +79,6 @@
     }
     
     function onKeyDown(event) {
-      var range = Number(document.getElementById("range").value);
       var key = event.character.toUpperCase();
       if (key === 'Z') {
         // Undo if ctrl was pressed else toggle eraser
@@ -142,10 +141,10 @@
       }
 
       if (key === 'Q') {
-        document.getElementById("range").setAttribute("value", Math.min(range + 3, 100));
+        document.getElementById("sizeSlider").setAttribute("value", Math.min(range + 3, 100));
       }
       if (key === 'A') {
-        document.getElementById("range").setAttribute("value", Math.max(range - 3, 1));
+        document.getElementById("sizeSlider").setAttribute("value", Math.max(range - 3, 1));
       }
     }
     
@@ -179,7 +178,53 @@
 
       return rotatedPoint;
     }
-    
+
+    // update numOfDivisions when slider value is changed
+    var slider = document.querySelector("#divisionsSlider");
+    slider.addEventListener("change", function () {
+      document.querySelector("#divisionsLabel").innerText = "No. of divisions: " + slider.value;
+      numOfDivisions = slider.value;
+      drawDivisionLines();
+    })
+    slider.addEventListener("mousemove", function () {
+      document.querySelector("#divisionsLabel").innerText = "No. of divisions: " + slider.value;
+      numOfDivisions = slider.value;
+      drawDivisionLines();
+    })
+
+    var diagonalSize = Math.sqrt(Math.pow(innerWidth / 2, 2) + Math.pow(innerHeight / 2, 2));
+    var divisionLines;
+    function drawDivisionLines () {
+      // clear previous divisionLines if they are already drawn
+      clearDivisionLines();
+
+      // don't draw if numOfDivisions == 1 or showDivisionLines is unchecked
+      if (numOfDivisions == 1 || !showDivisionLines.checked) return;
+
+      divisionLines = new Path();
+      divisionLines.strokeColor = BrushColor;
+      
+      var angle = 0;
+      for (var i = 0; i < numOfDivisions; i++) {
+        divisionLines.add(innerWidth / 2, innerHeight / 2);
+        var point = rotate({x: innerWidth / 2, y: -diagonalSize}, angle);
+        divisionLines.add(point);
+        angle += Math.PI * 2 / numOfDivisions;
+      }
+    }
+    function clearDivisionLines () {
+      if (divisionLines) divisionLines.remove();
+    }
+
+    var showDivisionLines = document.querySelector("#showDivisionLines");
+    showDivisionLines.addEventListener("change", function () {
+      if (showDivisionLines.checked) {
+        drawDivisionLines();
+      } else {
+        clearDivisionLines();
+      }
+    })
+
   </script>
 </head>
 
@@ -194,14 +239,21 @@
   <div style="padding: 10px 20px">
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color" />
-    <strong><label for="range">Size</label></strong>
-    <input type="range" name="" id="range" min="1" max="100" value="4">
+
+    <strong><label for="sizeSlider">Size</label></strong>
+    <input type="range" name="" id="sizeSlider" min="1" max="100" value="4">
+
+    <strong><label for="divisionsSlider" id="divisionsLabel">No. of divisions: 1</label></strong>
+    <input type="range" id="divisionsSlider" min="1" max="100" value="1">
+    
+    <input type="checkbox" id="showDivisionLines" checked>
+    <strong><label for="showDivisionLines">Show division Lines</label></strong>
+
     <button id="clear" class="btn btn-secondary" style="float: right">Clear Screen</button>
     <button id="eraser" class="btn btn-secondary" style="float: right">Eraser</button>
   </div>
 
   <canvas id="myCanvas" resize></canvas>
-  <script></script>
 </body>
 
 </html>
