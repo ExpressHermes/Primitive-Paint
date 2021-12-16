@@ -117,3 +117,11 @@ header {
 #eraser{
 	margin: 0 10px 5px;
 }
+
+.footer-text img{
+	margin-bottom: -10px;
+}
+
+.links img{
+	margin-bottom: -5px;
+}
