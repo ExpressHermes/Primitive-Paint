@@ -128,6 +128,17 @@
       }
     })
   </script>
+</script>
+<div>
+  <script>
+  function createDownload() {
+      const downloadURL = document.getElementById('myCanvas').toDataURL();
+      console.log(document.getElementById('myCanvas'));
+      document.getElementById('downloadLink').href = downloadURL;
+  }
+
+  
+</script>
 </head>
 
 <body style="cursor: pointer">
@@ -145,6 +156,7 @@
     <input type="color" name="" id="fillColor" value="#eeeeee" />
     <strong><label for="range">Size</label></strong>
     <input type="range" name="" id="range" min="1" max="200">
+    <a id='downloadLink' download="canvas.jpg" onclick="createDownload()" class="btn btn-secondary" style="float: right" > Save </a>
     <button id="clear" class="btn btn-secondary" style="float: right">Clear Screen</button>
     <button id="eraser" class="btn btn-secondary" style="float: right">Eraser</button>
   </div>
