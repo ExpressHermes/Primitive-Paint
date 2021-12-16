@@ -105,14 +105,14 @@
           pathsRemoved.pop();
         }
       }
-    }
 
-    if (key === 'Q') {
-      document.getElementById("range").setAttribute("value", Math.min(range + 3, 200));
-    }
+      if (key === 'Q') {
+        document.getElementById("range").setAttribute("value", Math.min(range + 3, 200));
+      }
 
-    if (key === 'A') {
-      document.getElementById("range").setAttribute("value", Math.max(range - 3, 1));
+      if (key === 'A') {
+        document.getElementById("range").setAttribute("value", Math.max(range - 3, 1));
+      }
     }
 
     document.querySelector("#clear").addEventListener("click", function () {
