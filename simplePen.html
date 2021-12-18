@@ -226,6 +226,16 @@
     })
 
   </script>
+</script>
+<div>
+  <script>
+  function createDownload() {
+      const downloadURL = document.getElementById('myCanvas').toDataURL();
+      document.getElementById('downloadLink').href = downloadURL;
+  }
+
+  
+</script>
 </head>
 
 <body style="cursor: pointer">
@@ -248,7 +258,7 @@
     
     <input type="checkbox" id="showDivisionLines" checked>
     <strong><label for="showDivisionLines">Show division Lines</label></strong>
-
+    <a id='downloadLink' download="canvas.jpg" onclick="createDownload()" class="btn btn-secondary" style="float: right" > Save </a>
     <button id="clear" class="btn btn-secondary" style="float: right">Clear Screen</button>
     <button id="eraser" class="btn btn-secondary" style="float: right">Eraser</button>
   </div>
