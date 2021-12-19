@@ -39,6 +39,20 @@
       path.strokeColor = BrushColor;
     }
 
+    var bgColor = document.getElementById("bgcolor");
+
+    bgColor.onchange = function (e){
+      background = e.target.value;
+      var rect = new Path.Rectangle({
+        point: [0, 0],
+        size: [view.size.width, view.size.height],
+        strokeColor: 'white',
+        selected: true
+    });
+    rect.sendToBack();
+    rect.fillColor = e.target.value;
+    }
+
     function erase(event) {
       var epath;
       var range = Number(document.getElementById("range").value);
@@ -149,6 +163,8 @@
     <a class="nav-link" href="ellipse.html">Ellipse Pad</a>
   </nav>
   <div style="padding: 10px 20px">
+    <strong><label for="color">Background Color : </label></strong>
+    <input type="color" name="" id="bgcolor" />
     <strong><label for="color">Border Color : </label></strong>
     <input type="color" name="" id="color" />
     <strong><label for="fillColor">Fill Color : </label></strong>

@@ -26,6 +26,20 @@
     var background = "#eee";
     var isEraser = false;
 
+    var bgColor = document.getElementById("bgcolor");
+
+    bgColor.onchange = function (e){
+      background = e.target.value;
+      var rect = new Path.Rectangle({
+        point: [0, 0],
+        size: [view.size.width, view.size.height],
+        strokeColor: 'white',
+        selected: true
+    });
+    rect.sendToBack();
+    rect.fillColor = e.target.value;
+    }
+
     // Only execute onMouseDrag when the mouse
     // has moved at least 1 points:
     tool.minDistance = 1;
@@ -33,6 +47,7 @@
     tool.onMouseDown = function (event) {
       var range = Number(document.getElementById("sizeSlider").value);
       BrushColor = (isEraser ? background : document.getElementById("color").value);
+      background = document.getElementById("bgcolor").value;
       
       // create room for new path to be added
       pathsCreated.push([]);
@@ -224,6 +239,7 @@
         clearDivisionLines();
       }
     })
+    
 
   </script>
 </script>
@@ -249,6 +265,9 @@
   <div style="padding: 10px 20px">
     <strong><label for="color">Select Color : </label></strong>
     <input type="color" name="" id="color" />
+
+    <strong><label for="color">Background Color : </label></strong>
+    <input type="color" name="" id="bgcolor" />
 
     <strong><label for="sizeSlider">Size</label></strong>
     <input type="range" name="" id="sizeSlider" min="1" max="100" value="4">
