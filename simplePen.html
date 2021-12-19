@@ -26,11 +26,9 @@
     var background = "#eee";
     var isEraser = false;
 
-    var drawCanvas = document.getElementById("myCanvas");
     var bgColor = document.getElementById("bgcolor");
 
     bgColor.onchange = function (e){
-      console.log(e.target.value);
       background = e.target.value;
       var rect = new Path.Rectangle({
         point: [0, 0],
