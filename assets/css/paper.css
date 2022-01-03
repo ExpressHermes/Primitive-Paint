@@ -118,3 +118,11 @@ header {
 .links img{
 	margin-bottom: -5px;
 }
+
+#clear{
+	margin-right: 10px;
+}
+
+#range{
+	width: 80px;
+}
