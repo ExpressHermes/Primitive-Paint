@@ -17,6 +17,7 @@ body, html {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	background: linear-gradient(90deg, #3e94e2, #1b1f24) !important;
 }
 
 nav {
@@ -54,7 +55,7 @@ nav {
 	flex-direction: column;
 	justify-content: space-around;
 	align-content: center;
-	background: linear-gradient(90deg, #FF2A78, #F100AE);
+	background: linear-gradient(321deg, #f14785, #e0b5d5) !important;
 	overflow: hidden;
 }
 
@@ -67,7 +68,7 @@ nav {
 	text-align: center;
 	color: white;
 	justify-content: center;
-	background: linear-gradient(90deg, #FF2A78, #F100AE);
+	background: linear-gradient(321deg, #f147850d, #fccaef00);
 	z-index: 2;
 	transition: transform 400ms ease;
 }
@@ -101,9 +102,9 @@ a:hover {
 
 header {
 	text-align: center;
-	padding: 20px;
-	color: white;
-	font-size: 1.5em;
+	padding: 40px;
+	color: #f19fad;
+	font-size: 2.5em;
 	font-family: 'Pacifico', cursive !important;
 }
 
