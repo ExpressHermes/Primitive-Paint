@@ -23,7 +23,7 @@
     var numOfDivisions = 1;
     
     var BrushColor = "#000000";
-    var background = "#eee";
+    var background = "#eeeeee";
     var isEraser = false;
 
     var bgColor = document.getElementById("bgcolor");
@@ -46,6 +46,7 @@
 
     tool.onMouseDown = function (event) {
       var range = Number(document.getElementById("sizeSlider").value);
+      if(isEraser) range = range * 5; // Making Eraser size bigger than pen
       BrushColor = (isEraser ? background : document.getElementById("color").value);
       background = document.getElementById("bgcolor").value;
       
@@ -267,7 +268,7 @@
     <input type="color" name="" id="color" />
 
     <strong><label for="color">Background Color : </label></strong>
-    <input type="color" name="" id="bgcolor" />
+    <input type="color" name="" id="bgcolor" value="#eeeeee"/>
 
     <strong><label for="sizeSlider">Size</label></strong>
     <input type="range" name="" id="sizeSlider" min="1" max="100" value="4">
